@@ -22,7 +22,19 @@ spring:
       - id: users
         uri: lb://USER-SERVICE
         predicates:
-          - Path=/api/**
+          - Path=/api/v1/user/**
+
+      - id: market
+        uri: lb://MARKET-SERVICE
+        predicates:
+          - Path=/api/v1/products/**
+          - Path=/api/v1/exchanges/**
+
+      - id: order
+        uri: lb://ORDER-SERVICE
+        predicates:
+          - Path=/api/v1/orders/**
+          - Path=/api/v1/wallets/**
 
   security:
     oauth2:
