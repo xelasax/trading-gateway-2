@@ -1,7 +1,6 @@
 server:
   port: 8080
 
-
 eureka:
   client:
     serviceUrl:
@@ -29,8 +28,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:9090/auth/realms/micro-trading-system
-
+          issuer-uri: http://143.198.63.47:9090/auth/realms/alpha-trade
 
   main:
     allow-bean-definition-overriding: true
