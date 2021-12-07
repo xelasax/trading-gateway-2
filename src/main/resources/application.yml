@@ -13,34 +13,52 @@ spring:
   application:
     name: api-gateway
 
-  cloud.gateway:
-    discovery:
-      locator:
-        enabled: true
-        lowerCaseServiceId: true
-    routes:
-      - id: users
-        uri: lb://USER-SERVICE
-        predicates:
-          - Path=/api/v1/user/**
+  cloud:
+    gateway:
+#      default-filters:
+#        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: users
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/user/**
 
-      - id: market
-        uri: lb://MARKET-SERVICE
-        predicates:
-          - Path=/api/v1/products/**
-          - Path=/api/v1/exchanges/**
+        - id: market
+          uri: lb://MARKET-SERVICE
+          predicates:
+            - Path=/api/v1/products/**
+            - Path=/api/v1/exchanges/**
 
-      - id: order
-        uri: lb://ORDER-SERVICE
-        predicates:
-          - Path=/api/v1/orders/**
-          - Path=/api/v1/wallets/**
+        - id: order
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/v1/orders/**
+            - Path=/api/v1/wallets/**
 
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://143.198.63.47:9090/auth/realms/alpha-trade
+          issuer-uri: http://143.198.63.47:9090/auth/realms/test-trade
 
   main:
     allow-bean-definition-overriding: true
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: gateway
